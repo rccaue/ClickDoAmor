@@ -21,14 +21,42 @@ const naoFrases = [
     "fcho ent"
 ];
 
-// Clicar no SIM
+function moverBotaoNao() {
+    naoClickCount++;
+
+    const newWidth = Math.max(50, naoBtn.offsetWidth - 15);
+    const newHeight = Math.max(30, naoBtn.offsetHeight - 10);
+    naoBtn.style.width = newWidth + "px";
+    naoBtn.style.height = newHeight + "px";
+
+    naoBtn.style.fontSize = Math.max(10, newWidth / 8) + "px";
+
+    if (naoClickCount - 1 < naoFrases.length) {
+        naoBtn.textContent = naoFrases[naoClickCount - 1];
+    }
+
+    const maxX = window.innerWidth - newWidth - 5;
+    const maxY = window.innerHeight - newHeight - 5;
+    const randomX = Math.floor(Math.random() * maxX);
+    const randomY = Math.floor(Math.random() * maxY);
+
+    naoBtn.style.position = "fixed";
+    naoBtn.style.left = randomX + "px";
+    naoBtn.style.top = randomY + "px";
+}
+
+naoBtn.addEventListener("mouseover", moverBotaoNao);
+
+naoBtn.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    moverBotaoNao();
+});
+
 simBtn.addEventListener("click", () => {
     questao.innerHTML = "AAAAA, Eu tbm te AMO, meu amor da minha vidaaa 💖";
     gif.src = "https://raw.githubusercontent.com/DzarelDeveloper/Img/main/gif.webp";
-
     musica.play();
 
-    // Cria corações animados
     for (let i = 0; i < 20; i++) {
         let heart = document.createElement("div");
         heart.classList.add("heart");
@@ -40,50 +68,18 @@ simBtn.addEventListener("click", () => {
         setTimeout(() => heart.remove(), 5000);
     }
 
-    // Mostra mensagem final
     setTimeout(() => {
         mensagemFinal.classList.remove("hidden");
         mensagemFinal.classList.add("show");
     }, 1500);
 });
 
-// Botão NÃO
-naoBtn.addEventListener("mouseover", () => {
-    naoClickCount++;
-
-    // Diminui tamanho do botão
-    const newWidth = Math.max(50, naoBtn.offsetWidth - 15);
-    const newHeight = Math.max(30, naoBtn.offsetHeight - 10);
-    naoBtn.style.width = newWidth + "px";
-    naoBtn.style.height = newHeight + "px";
-
-    // Ajusta a fonte proporcional ao tamanho do botão
-    naoBtn.style.fontSize = Math.max(10, newWidth / 8) + "px";
-
-    // Muda frase
-    if (naoClickCount - 1 < naoFrases.length) {
-        naoBtn.textContent = naoFrases[naoClickCount - 1];
-    }
-
-    // Limita posição dentro da tela inteira
-    const maxX = window.innerWidth - newWidth - 5;
-    const maxY = window.innerHeight - newHeight - 5;
-    const randomX = Math.floor(Math.random() * maxX);
-    const randomY = Math.floor(Math.random() * maxY);
-
-    naoBtn.style.position = "fixed"; // garante que fique na tela
-    naoBtn.style.left = randomX + "px";
-    naoBtn.style.top = randomY + "px";
-});
-
-// Alternar tema
 toggleThemeBtn.addEventListener("click", () => {
     document.body.classList.toggle("night");
 
     if (document.body.classList.contains("night")) {
         toggleThemeBtn.textContent = "☀️";
 
-        // Cria estrelinhas
         for (let i = 0; i < 30; i++) {
             let star = document.createElement("div");
             star.classList.add("star");
