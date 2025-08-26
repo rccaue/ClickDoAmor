@@ -10,18 +10,25 @@ const toggleThemeBtn = document.querySelector(".toggle-theme");
 let naoClickCount = 0;
 const naoFrases = [
     "Tem certeza?",
-    "Você tem absoluta certeza?",
-    "Vai se arrepender disso...",
-    "Não desista tão fácil!",
-    "Eu sei que você ama 😏"
+    "Pensa direito",
+    "Certeza absoluta?",
+    "Vai se arrepender",
+    "Eu sei que você ama",
+    "Poxa amor",
+    "clica em SIM",
+    "Não blz então",
+    "Vai PORRA",
+    "fcho ent"
 ];
 
+// Clicar no SIM
 simBtn.addEventListener("click", () => {
     questao.innerHTML = "AAAAA, Eu tbm te AMO, meu amor da minha vidaaa 💖";
     gif.src = "https://raw.githubusercontent.com/DzarelDeveloper/Img/main/gif.webp";
 
     musica.play();
 
+    // Cria corações animados
     for (let i = 0; i < 20; i++) {
         let heart = document.createElement("div");
         heart.classList.add("heart");
@@ -30,48 +37,53 @@ simBtn.addEventListener("click", () => {
         heart.style.top = "-20px";
         heart.style.animationDuration = (2 + Math.random() * 3) + "s";
         document.body.appendChild(heart);
-
         setTimeout(() => heart.remove(), 5000);
     }
 
+    // Mostra mensagem final
     setTimeout(() => {
         mensagemFinal.classList.remove("hidden");
         mensagemFinal.classList.add("show");
-    }, 1000);
+    }, 1500);
 });
 
+// Botão NÃO
 naoBtn.addEventListener("mouseover", () => {
     naoClickCount++;
 
-    // Diminui tamanho a cada fuga (mínimo 50px)
+    // Diminui tamanho do botão
     const newWidth = Math.max(50, naoBtn.offsetWidth - 15);
     const newHeight = Math.max(30, naoBtn.offsetHeight - 10);
     naoBtn.style.width = newWidth + "px";
     naoBtn.style.height = newHeight + "px";
 
-    // Muda frase a cada fuga
+    // Ajusta a fonte proporcional ao tamanho do botão
+    naoBtn.style.fontSize = Math.max(10, newWidth / 8) + "px";
+
+    // Muda frase
     if (naoClickCount - 1 < naoFrases.length) {
         naoBtn.textContent = naoFrases[naoClickCount - 1];
     }
 
-    // Limita posição dentro da wrapper
-    const wrapperRect = wrapper.getBoundingClientRect();
-    const naoBtnRect = naoBtn.getBoundingClientRect();
-    const maxX = wrapperRect.width - naoBtnRect.width - 5;
-    const maxY = wrapperRect.height - naoBtnRect.height - 5;
+    // Limita posição dentro da tela inteira
+    const maxX = window.innerWidth - newWidth - 5;
+    const maxY = window.innerHeight - newHeight - 5;
     const randomX = Math.floor(Math.random() * maxX);
     const randomY = Math.floor(Math.random() * maxY);
-    naoBtn.style.position = "absolute";
+
+    naoBtn.style.position = "fixed"; // garante que fique na tela
     naoBtn.style.left = randomX + "px";
     naoBtn.style.top = randomY + "px";
 });
 
+// Alternar tema
 toggleThemeBtn.addEventListener("click", () => {
     document.body.classList.toggle("night");
 
     if (document.body.classList.contains("night")) {
         toggleThemeBtn.textContent = "☀️";
 
+        // Cria estrelinhas
         for (let i = 0; i < 30; i++) {
             let star = document.createElement("div");
             star.classList.add("star");
